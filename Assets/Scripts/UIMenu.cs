@@ -43,7 +43,7 @@ public class UIMenu : MonoBehaviour
             SceneManager.LoadScene(1);
         }
         errorMessage.gameObject.SetActive(true);
-        errorMessage.text = "Please enter your player name, minimum 2 character";
+        errorMessage.text = "Please enter your player name";
     }
 
     public void ReadPlayerNameInput()
