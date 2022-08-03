@@ -22,7 +22,7 @@ public class RestartButton : MonoBehaviour
      private void RestartGame()
     {
         Debug.Log("button is clicked");
-        gameManager.StartGame();
+     //   gameManager.StartGame();
     }
 
 }
