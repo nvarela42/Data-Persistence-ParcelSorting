@@ -12,31 +12,18 @@ public class GameManager : MonoBehaviour
     public float speedRate;
     public float spawnRate;
     public bool isGameActive;
-    public Button restartButton;
     public List<Image> lifeImages;
     public GameObject[] packagePrefab;
-    private TextMeshProUGUI buttonName;
-    private Color gameOverTextColor = new Color(140, 13, 14, 255);
-    private Color winTextColor = new Color(168, 255, 248, 255);
-    [SerializeField] private TextMeshProUGUI endGameText;
-    [SerializeField] private TextMeshProUGUI winOrOverText;
     [SerializeField] private TextMeshProUGUI endScoreText;
     [SerializeField] private TextMeshProUGUI counterText;
 
-    private void Start()
-    {
-        buttonName = restartButton.GetComponentInChildren<TextMeshProUGUI>();
-        buttonName.text = "Play Game";
-    }
-    public void StartGame()
+    public void Start()
     {
         foreach (var image in lifeImages)
         {
             image.gameObject.SetActive(true);
         }
         isGameActive = true;
-        restartButton.gameObject.SetActive(false);
-        endGameText.gameObject.SetActive(false);
         speedRate = 0.0f;
         spawnRate = 2.0f;
         score = 0;
@@ -44,7 +31,6 @@ public class GameManager : MonoBehaviour
         counterText.text = "Score : " + score;
         StartCoroutine("SpeedIncrease");
         StartCoroutine("SpawnRandomPackage");
-        restartButton.GetComponent<TextMeshProUGUI>(); 
     }
 
      private IEnumerator SpeedIncrease()
@@ -76,33 +62,13 @@ public class GameManager : MonoBehaviour
     }
     public void IsEndOfGame()
     {
+        Debug.Log("is endof game");
         isGameActive = false;
-        endGameText.gameObject.SetActive(true);
-        if (score <= 0)
-        {
-            winOrOverText.color = Color.red;
-            endScoreText.color = gameOverTextColor;
-            winOrOverText.text = "GAME OVER";
-            endScoreText.text = "you have not scored any points :(";
-            restartButton.gameObject.SetActive(true);
+        MainManager.instance.currentScore = score;
+        MainManager.instance.isNotStartApp = true;
+        MainManager.instance.SaveCurrentData();
+        SceneManager.LoadScene(0);
 
-
-        }
-        else
-        {
-            winOrOverText.color = Color.cyan;
-            endScoreText.color = winTextColor;
-            winOrOverText.text = "GOOD JOB !!";
-            endScoreText.text ="Your score is : " + score;
-            buttonName.text = "Restart Game";
-            restartButton.gameObject.SetActive(true);
-        }
-    
-    }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
